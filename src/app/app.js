@@ -6,6 +6,7 @@ import {render} from 'react-dom';
 import Select from '@jetbrains/ring-ui/components/select/select';
 import Panel from '@jetbrains/ring-ui/components/panel/panel';
 import Button from '@jetbrains/ring-ui/components/button/button';
+import Input from '@jetbrains/ring-ui/components/input/input';
 
 import 'file-loader?name=[name].[ext]!../../manifest.json'; // eslint-disable-line import/no-unresolved
 import styles from './app.css';
@@ -49,8 +50,8 @@ class Widget extends Component {
   }
 
   saveConfig = async () => {
-    const {selectedColor} = this.state;
-    await this.props.dashboardApi.storeConfig({selectedColor});
+    const {selectedColor, username} = this.state;
+    await this.props.dashboardApi.storeConfig({selectedColor, username});
     this.setState({isConfiguring: false});
   };
 
@@ -62,8 +63,12 @@ class Widget extends Component {
 
   changeColor = selectedColor => this.setState({selectedColor});
 
+  changeName = e => this.setState({
+    username: e.target.value
+  });
+
   renderConfiguration() {
-    const {selectedColor} = this.state;
+    const {selectedColor, username} = this.state;
 
     return (
       <div className={styles.widget}>
@@ -72,6 +77,11 @@ class Widget extends Component {
           selected={selectedColor}
           onChange={this.changeColor}
           label="Select text color"
+        />
+        <Input
+          label="What is your name?"
+          onChange={this.changeName}
+          value={username}
         />
         <Panel>
           <Button blue={true} onClick={this.saveConfig}>{'Save'}</Button>
@@ -82,7 +92,7 @@ class Widget extends Component {
   }
 
   render() {
-    const {selectedColor, isConfiguring} = this.state;
+    const {selectedColor, username, isConfiguring} = this.state;
 
     if (isConfiguring) {
       return this.renderConfiguration();
@@ -90,8 +100,20 @@ class Widget extends Component {
 
     return (
       <div className={styles.widget}>
-        <h1 style={{color: selectedColor.key}}>{sayHello()}</h1>
-        <p>{'Select "Edit..." option in widget dropdown to configure text color'}</p>
+        <h3>{`This Week: , ${username}`}</h3>
+        <div className={styles.chip}>{'Mon: 7h'}</div>
+        <div className={styles.chip}>{'Tue: 5h'}</div>
+        <div className={styles.chip}>{'Wen: 6h'}</div>
+        <div className={styles.chip}>{'Thu: 3h'}</div>
+        <div className={styles.chip}>{'Fri: 0h'}</div>
+        <a>{'See Full Task Info'}</a>
+        <h3>{`Tasks in Progress: , ${username}`}</h3>
+        <div style={{display: 'flex'}}>
+          <div>{'Task 1: '}</div>
+          <Button blue={true} onClick={this.saveConfig}>{'+1h'}</Button>
+        </div>
+        <h1 style={{color: selectedColor.key}}>{sayHello(username)}</h1>
+        <p>{'Select "Edit..." option in widget dropdown to configure it'}</p>
       </div>
     );
   }
