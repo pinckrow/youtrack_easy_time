@@ -3,5 +3,18 @@
   "name": "Easy Time",
   "version": "1.0.0",
   "description": "Widget for convenient time tracking and time filling for recent activities",
-  "author": "Valentin Kononov &lt;valentin.kononov@gmail.com&gt;"
+  "author": "Valentin Kononov <valentin.kononov@gmail.com>;",
+  "applicationName": "YouTrack",
+  "dependencies": {
+    "YouTrack": ">=2017.4",
+    "Hub": ">=2017.4"
+  },
+  "products": {
+    "YouTrack": ">=2017.4",
+    "Hub": ">=2017.4"
+  },
+  "capabilities": {
+    "popups": true,
+    "topNavigation": true
+  }
 }
