@@ -8,10 +8,6 @@ import '@jetbrains/ring-ui/components/form/form.scss';
 import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 import styles from './widget.css';
 import {
-  getListOfBoardIssues,
-  isCurrentSprint
-} from './model';
-import {
   getYouTrackService,
   loadExtendedSprintData,
   loadInProgressIssues,
@@ -21,6 +17,8 @@ import {
   loadAgile
 } from './api';
 import {
+  getListOfBoardIssues,
+  isCurrentSprint,
   getWeek,
   getWorkWeekStub,
   minsInHour,
@@ -248,6 +246,10 @@ export default class EasyTimeWidget extends Component {
     return <LoaderInline/>;
   }
 
+  getPercent(value, total) {
+    return 100 * (1.0 * value / minsInHour / total);
+  }
+
   renderWidgetBody(workItems, inProgressIssues, totalTime) {
     const homeUrl = this.state.youTrack.homeUrl;
     return (
@@ -264,8 +266,8 @@ export default class EasyTimeWidget extends Component {
             }
           </div>
         </div>
-        <div className={styles.sprintProgressBar}>
-          <Progress completed={totalTime / hoursInWeek}/>
+        <div className={styles.progressContainer}>
+          <Progress color={'#82b3c9'} completed={this.getPercent(totalTime, hoursInWeek)}/>
         </div>
         <h3>{'Tasks in Progress'}</h3>
         <div className={styles.sprintCommonInfo}>

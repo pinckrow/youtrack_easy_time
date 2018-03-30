@@ -15,7 +15,7 @@ import {
 import {
   areSprintsEnabled,
   isCurrentSprint
-} from './model';
+} from './service';
 import {responseErrorMessage} from './response-error-message';
 import styles from './widget.css';
 
@@ -155,7 +155,7 @@ export default class ConfigurationForm extends React.Component {
       const hasCurrentSprint = sprints.some(isCurrentSprint);
       this.changeSprint(
         hasCurrentSprint
-          ? BoardStatusEditForm.getCurrentSprintSelectOption()
+          ? ConfigurationForm.getCurrentSprintSelectOption()
           : sprints[0]
       );
     }
@@ -194,14 +194,14 @@ export default class ConfigurationForm extends React.Component {
 
     const getSprintsOptions = () => {
       const sprints = (selectedAgile.sprints || []);
-      const sprintsOptions = sprints.map(BoardStatusEditForm.toSelectItem);
+      const sprintsOptions = sprints.map(ConfigurationForm.toSelectItem);
       const currentSprint = sprints.filter(isCurrentSprint)[0];
       if (currentSprint) {
         sprintsOptions.unshift({
           rgItemType: List.ListProps.Type.SEPARATOR
         });
         sprintsOptions.unshift(
-          BoardStatusEditForm.getCurrentSprintSelectOption(currentSprint)
+          ConfigurationForm.getCurrentSprintSelectOption(currentSprint)
         );
       }
       return sprintsOptions;
@@ -211,8 +211,8 @@ export default class ConfigurationForm extends React.Component {
       <div>
         <div className="ring-form__group">
           <Select
-            data={agiles.map(BoardStatusEditForm.toSelectItem)}
-            selected={BoardStatusEditForm.toSelectItem(selectedAgile)}
+            data={agiles.map(ConfigurationForm.toSelectItem)}
+            selected={ConfigurationForm.toSelectItem(selectedAgile)}
             onSelect={this.changeAgile}
             filter={true}
             label="Select board"
@@ -225,8 +225,8 @@ export default class ConfigurationForm extends React.Component {
               data={getSprintsOptions()}
               selected={
                 currentSprintMode
-                  ? BoardStatusEditForm.getCurrentSprintSelectOption()
-                  : BoardStatusEditForm.toSelectItem(selectedSprint)
+                  ? ConfigurationForm.getCurrentSprintSelectOption()
+                  : ConfigurationForm.toSelectItem(selectedSprint)
               }
               onSelect={this.changeSprint}
               filter={true}
@@ -253,8 +253,8 @@ export default class ConfigurationForm extends React.Component {
             (youTracks || []).length > 1 &&
             <div className="ring-form__group">
               <Select
-                data={youTracks.map(BoardStatusEditForm.toSelectItem)}
-                selected={BoardStatusEditForm.toSelectItem(selectedYouTrack)}
+                data={youTracks.map(ConfigurationForm.toSelectItem)}
+                selected={ConfigurationForm.toSelectItem(selectedYouTrack)}
                 onSelect={this.changeYouTrack}
                 filter={true}
                 label="Select YouTrack Server"

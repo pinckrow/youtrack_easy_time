@@ -20,10 +20,15 @@
   margin-left: unit;
 }
 
-.sprintProgressBar {
+.progressContainer {
   width: 100%;
 
-  background-color: #d1eefd;
+  background-color: #b3e5fc;
+}
+.progressBar {
+  width: 100%;
+
+  background-color: #82b3c9;
 }
 
 .sprintCommonInfo {
