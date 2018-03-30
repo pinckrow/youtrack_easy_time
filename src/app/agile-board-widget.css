@@ -186,3 +186,7 @@
   -webkit-transform: translateY(-140%);
   transform: translateY(-140%);
 }
+
+.button {
+  margin-left: 1rem;
+}

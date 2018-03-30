@@ -24,6 +24,7 @@ import {
   loadInProgressIssues,
   loadTimeForIssue,
   loadCurrentUser,
+  postWorkItem,
   loadAgile,
   getHubUser
 } from './resources';
@@ -136,6 +137,37 @@ export default class AgileBoardWidget extends Component {
     });
   };
 
+  addTime = async (issueId, date, hours) => {
+    const minsInHour = 60;
+    this.setLoadingEnabled(true);
+
+    // const xmlWorkItem = `<workItem>
+    //   <date>${date}</date>
+    //   <duration>${hours * minsInHour}</duration>
+    //   <description>auto logged from easy time widget</description>
+    //   <worktype>
+    //     <name>Development</name>
+    //   </worktype>
+    // </workItem>`;
+
+    const workItem = {
+      date: date,
+      duration: hours * minsInHour,
+      description: 'auto logged from easy time widget',
+      worktype: {
+        name: 'Development'
+      }
+    };
+    try {
+      await postWorkItem(this.fetchYouTrack, issueId, workItem);
+      this.setLoadingEnabled(false);
+    } catch (err) {
+      console.log(err)
+      this.setLoadingEnabled(false);
+      this.setState({isLoadDataError: true});
+    }
+  };
+
   cancelConfig = async () => {
     this.setState({isConfiguring: false});
     await this.props.dashboardApi.exitConfigMode();
@@ -197,7 +229,7 @@ export default class AgileBoardWidget extends Component {
       let user = {};
       let inProgressIssues = [];
       const issues = getListOfBoardIssues(sprint.board);
-      const workItems = [{day: 'Mon', spent: 0}, {day: 'Tue', spent: 0}, {day: 'Wen', spent: 0}, {day: 'Thu', spent: 0},
+      const workItems = [{day: 'Mon', spent: 0}, {day: 'Tue', spent: 0}, {day: 'Wed', spent: 0}, {day: 'Thu', spent: 0},
         {day: 'Fri', spent: 0}, {day: 'Sat', spent: 0}, {day: 'Sun', spent: 0}];
       let totalTime = 0;
       Promise.all(issues.map(issue =>
@@ -349,24 +381,20 @@ export default class AgileBoardWidget extends Component {
               ))
             }
           </div>
-          <h3>{`${user.login} Tasks in Progress`}</h3>
-          <div style={{display: 'flex'}}>
-            <div>{'Task 1: '}</div>
-            <Button blue={true} onClick={this.saveConfig}>{'+1h'}</Button>
-          </div>
-          <p>{'Select "Edit..." option in widget dropdown to configure it'}</p>
         </div>
-
-        <div className={styles.sprintCommonInfo}>{'Issues:'}</div>
+        <h3>{`${user.login} Tasks in Progress`}</h3>
         <div className={styles.sprintCommonInfo}>
           {
             inProgressIssues.map(issue => (
               <div key={`issue_${issue.id}`}>
                 <a href={`${homeUrl}/issue/${issue.id}`}>
-                  {`${issue.id} : ${issue.field.find(f => f.name === 'summary').value}`}</a></div>
+                  {`${issue.id} : ${issue.field.find(f => f.name === 'summary').value}`}</a>
+                <Button className={styles.button} blue={true} onClick={() => this.addTime(issue.id, Date.now(), 1)}>{'+1h'}</Button>
+              </div>
             ))
           }
         </div>
+        <p>{'Select "Edit..." option in widget dropdown to configure it'}</p>
       </div>
     );
   }
