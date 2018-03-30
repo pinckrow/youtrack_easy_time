@@ -1,4 +1,4 @@
-@value unit, font, font-size from "@jetbrains/ring-ui/components/global/global.css";
+@value unit, font, font-size, dark-gray-color, error-color from "@jetbrains/ring-ui/components/global/global.css";
 
 :global(.widget-body) {
   margin: 0;
@@ -14,6 +14,83 @@
 
   margin: 0;
   padding: 0;
+}
+
+.widgetEditForm {
+  margin-left: unit;
+}
+
+.sprintProgress {
+  height: unit;
+  margin-top: 32px;
+
+  white-space: nowrap;
+}
+
+.sprintProgressBar {
+  position: relative;
+
+  display: inline-block;
+
+  min-width: unit;
+  margin-right: unit;
+
+  background-color: #d1eefd;
+}
+
+.sprintProgressBarLabel {
+  position: relative;
+
+  display: inline-block;
+  overflow: hidden;
+
+  min-width: unit;
+  margin-top: unit;
+  margin-right: unit;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  color: dark-gray-color;
+}
+
+.sprintProgressData {
+  position: absolute;
+  bottom: 0;
+
+  display: inline-block;
+
+  width: 100%;
+
+  background-color: #25b7ff;
+}
+
+.sprintProgressDataOverdue {
+  background-color: #c10000;
+}
+
+.sprintCommonInfo {
+  margin-bottom: unit;
+}
+
+.formPanelError {
+  margin-bottom: unit;
+
+  color: error-color;
+}
+
+.formPanel.formPanel {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  padding: 16px 24px;
+}
+
+.flexContainer {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .chip {
@@ -50,7 +127,7 @@
   border: none;
   border-bottom: 1px solid #9e9e9e;
   -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   margin: 0 0 20px 0;
   min-height: 45px;
   outline: none;
@@ -61,7 +138,7 @@
 .chips.focus {
   border-bottom: 1px solid #26a69a;
   -webkit-box-shadow: 0 1px 0 0 #26a69a;
-          box-shadow: 0 1px 0 0 #26a69a;
+  box-shadow: 0 1px 0 0 #26a69a;
 }
 
 .chips:hover {
@@ -90,7 +167,7 @@
 .chips .input:focus {
   border: 0 !important;
   -webkit-box-shadow: none !important;
-          box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .chips .autocomplete-content {
@@ -107,5 +184,5 @@
 .chips:empty ~ label {
   font-size: 0.8rem;
   -webkit-transform: translateY(-140%);
-          transform: translateY(-140%);
+  transform: translateY(-140%);
 }
