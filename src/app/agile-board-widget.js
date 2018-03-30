@@ -21,6 +21,7 @@ import {
 import {
   getYouTrackService,
   loadExtendedSprintData,
+  loadInProgressIssues,
   loadTimeForIssue,
   loadCurrentUser,
   loadAgile,
@@ -194,6 +195,7 @@ export default class AgileBoardWidget extends Component {
       );
 
       let user = {};
+      let inProgressIssues = [];
       const issues = getListOfBoardIssues(sprint.board);
       const workItems = [{day: 'Mon', spent: 0}, {day: 'Tue', spent: 0}, {day: 'Wen', spent: 0}, {day: 'Thu', spent: 0},
         {day: 'Fri', spent: 0}, {day: 'Sat', spent: 0}, {day: 'Sun', spent: 0}];
@@ -215,7 +217,12 @@ export default class AgileBoardWidget extends Component {
           loadCurrentUser(this.fetchYouTrack).then(result => {
             user = result;
           }).then(() => {
-            this.setState({sprint, issues, workItems, totalTime, user});
+            loadInProgressIssues(this.fetchYouTrack).then(result => {
+              inProgressIssues = result.issue;
+              // console.log(inProgressIssues)
+            }).then(() => {
+              this.setState({sprint, issues, workItems, totalTime, user, inProgressIssues});
+            });
           });
         });
     } catch (err) {
@@ -227,8 +234,7 @@ export default class AgileBoardWidget extends Component {
     return <LoaderInline/>;
   }
 
-  renderWidgetBody(agile, sprint, issues, workItems, totalTime, user) {
-    console.log(user);
+  renderWidgetBody(agile, sprint, issues, workItems, totalTime, user, inProgressIssues) {
     const minsInHour = 60;
     const boardData = sprint.board;
     const boardProgressBars = countBoardProgress(boardData);
@@ -353,7 +359,13 @@ export default class AgileBoardWidget extends Component {
 
         <div className={styles.sprintCommonInfo}>{'Issues:'}</div>
         <div className={styles.sprintCommonInfo}>
-          {issues.join(',')}
+          {
+            inProgressIssues.map(issue => (
+              <div key={`issue_${issue.id}`}>
+                <a href={`${homeUrl}/issue/${issue.id}`}>
+                  {`${issue.id} : ${issue.field.find(f => f.name === 'summary').value}`}</a></div>
+            ))
+          }
         </div>
       </div>
     );
@@ -376,6 +388,7 @@ export default class AgileBoardWidget extends Component {
       workItems,
       totalTime,
       user,
+      inProgressIssues,
       isLoading,
       isLoadDataError
     } = this.state;
@@ -393,7 +406,7 @@ export default class AgileBoardWidget extends Component {
       return this.renderLoader();
     }
     return this.renderWidgetBody(
-      agile, sprint, issues, workItems, totalTime, user
+      agile, sprint, issues, workItems, totalTime, user, inProgressIssues
     );
   }
 }

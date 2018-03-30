@@ -29,6 +29,10 @@ export async function loadTimeForIssue(fetchYouTrack, issue) {
   return await fetchYouTrack(`rest/issue/${issue}/timetracking/workitem`);
 }
 
+export async function loadInProgressIssues(fetchYouTrack) {
+  return await fetchYouTrack('rest/issue/?filter=for%3A+me+In+Progress');
+}
+
 export async function getYouTrackServices(fetchHub) {
   const data = await fetchHub(`api/rest/services?fields=${SERVICE_FIELDS}`);
   return (data.services || []).filter(
