@@ -5,11 +5,11 @@ import DashboardAddons from 'hub-dashboard-addons';
 import React from 'react';
 import {render} from 'react-dom';
 
-import AgileBoardWidget from './agile-board-widget';
+import EasyTimeWidget from './widget';
 
 DashboardAddons.registerWidget(async (dashboardApi, registerWidgetApi) => {
   render(
-    <AgileBoardWidget
+    <EasyTimeWidget
       dashboardApi={dashboardApi}
       registerWidgetApi={registerWidgetApi}
     />,

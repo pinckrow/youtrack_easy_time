@@ -11,15 +11,15 @@ import classNames from 'classnames';
 import {
   getYouTrackServices,
   loadAgiles
-} from './resources';
+} from './api';
 import {
   areSprintsEnabled,
   isCurrentSprint
-} from './agile-board-model';
+} from './model';
 import {responseErrorMessage} from './response-error-message';
-import styles from './agile-board-widget.css';
+import styles from './widget.css';
 
-export default class BoardStatusEditForm extends React.Component {
+export default class ConfigurationForm extends React.Component {
   static propTypes = {
     agile: PropTypes.object,
     sprint: PropTypes.object,

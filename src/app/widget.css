@@ -20,53 +20,10 @@
   margin-left: unit;
 }
 
-.sprintProgress {
-  height: unit;
-  margin-top: 32px;
-
-  white-space: nowrap;
-}
-
 .sprintProgressBar {
-  position: relative;
-
-  display: inline-block;
-
-  min-width: unit;
-  margin-right: unit;
-
-  background-color: #d1eefd;
-}
-
-.sprintProgressBarLabel {
-  position: relative;
-
-  display: inline-block;
-  overflow: hidden;
-
-  min-width: unit;
-  margin-top: unit;
-  margin-right: unit;
-
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  color: dark-gray-color;
-}
-
-.sprintProgressData {
-  position: absolute;
-  bottom: 0;
-
-  display: inline-block;
-
   width: 100%;
 
-  background-color: #25b7ff;
-}
-
-.sprintProgressDataOverdue {
-  background-color: #c10000;
+  background-color: #d1eefd;
 }
 
 .sprintCommonInfo {
